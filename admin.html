@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración | Clínica Vida Sana</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="logo"><span class="cruz">+</span> Clínica <span>Vida Sana</span></div>
+      <h1>Panel de Administración</h1>
+      <p class="sub">Acceso exclusivo para administradores</p>
+      <div class="error" id="loginError"></div>
+      <form id="loginForm">
+        <div class="campo">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" placeholder="admin" autocomplete="username" required />
+        </div>
+        <div class="campo">
+          <label for="clave">Contraseña</label>
+          <input type="password" id="clave" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn-block">Iniciar sesión</button>
+      </form>
+      <div class="hint">Demo — Usuario: <strong>admin</strong> · Contraseña: <strong>admin123</strong></div>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panelView" style="display:none;">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="marca">
+          <span class="cruz">+</span>
+          <div>Vida Sana <small>Administración</small></div>
+        </div>
+        <div class="topbar-actions">
+          <span class="usuario">Hola, admin</span>
+          <a href="index.html" class="btn btn-sm btn-gris">Ver sitio</a>
+          <button class="btn btn-sm btn-rojo" id="btnSalir">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="panel">
+      <div class="stats">
+        <div class="stat"><div class="num" id="statTurnos">0</div><div class="lbl">Turnos totales</div></div>
+        <div class="stat"><div class="num" id="statPendientes">0</div><div class="lbl">Pendientes</div></div>
+        <div class="stat"><div class="num" id="statConfirmadas">0</div><div class="lbl">Confirmadas</div></div>
+        <div class="stat"><div class="num" id="statMedicos">0</div><div class="lbl">Médicos</div></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab activo" data-tab="turnos">Turnos / Citas</button>
+        <button class="tab" data-tab="medicos">Médicos</button>
+        <button class="tab" data-tab="respaldo">Respaldo</button>
+      </div>
+
+      <!-- Vista turnos -->
+      <section id="vistaTurnos">
+        <div class="panel-head">
+          <h2>Gestión de Turnos</h2>
+          <div class="filtros">
+            <input type="text" id="filtroTurno" placeholder="Buscar paciente, especialidad..." />
+            <select id="filtroEstado">
+              <option value="">Todos los estados</option>
+              <option>Pendiente</option>
+              <option>Confirmada</option>
+              <option>Atendida</option>
+              <option>Cancelada</option>
+            </select>
+            <button class="btn btn-sm" data-accion="nuevo-turno">+ Nuevo turno</button>
+          </div>
+        </div>
+        <div class="tabla-wrap">
+          <table id="tablaTurnos">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Especialidad</th>
+                <th>Médico</th>
+                <th>Fecha / Hora</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+                <th>Creado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Vista médicos -->
+      <section id="vistaMedicos" style="display:none;">
+        <div class="panel-head">
+          <h2>Gestión de Médicos</h2>
+          <div class="filtros">
+            <button class="btn btn-sm" data-accion="nuevo-medico">+ Nuevo médico</button>
+          </div>
+        </div>
+        <div class="tabla-wrap">
+          <table id="tablaMedicos">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Cédula</th>
+                <th>Experiencia</th>
+                <th>Días y horario</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Vista respaldo -->
+      <section id="vistaRespaldo" style="display:none;">
+        <div class="panel-head">
+          <h2>Respaldo y Restauración</h2>
+        </div>
+        <p class="ayuda">
+          Exporta los datos a archivos <strong>CSV</strong> (compatibles con Excel y
+          hojas de cálculo) para guardarlos como respaldo. En caso de desastre
+          (pérdida de datos del navegador, reinstalación, etc.) impórtalos para
+          restaurar el sistema.
+        </p>
+
+        <div class="respaldo-grid">
+          <div class="respaldo-card">
+            <h3>Médicos</h3>
+            <p id="infoMedicosRespaldo">—</p>
+            <div class="respaldo-actions">
+              <button class="btn btn-sm" data-accion="exportar-medicos">Exportar CSV</button>
+              <button class="btn btn-sm btn-gris" data-accion="importar-medicos">Importar CSV</button>
+            </div>
+            <input type="file" id="archivoMedicos" accept=".csv,text/csv" style="display:none;" />
+          </div>
+
+          <div class="respaldo-card">
+            <h3>Turnos / Citas</h3>
+            <p id="infoTurnosRespaldo">—</p>
+            <div class="respaldo-actions">
+              <button class="btn btn-sm" data-accion="exportar-turnos">Exportar CSV</button>
+              <button class="btn btn-sm btn-gris" data-accion="importar-turnos">Importar CSV</button>
+            </div>
+            <input type="file" id="archivoTurnos" accept=".csv,text/csv" style="display:none;" />
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <h3 id="modalTitulo">Editar</h3>
+      <div id="modalContenido"></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

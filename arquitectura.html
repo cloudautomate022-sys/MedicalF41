@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arquitectura del Sistema | Clínica Vida Sana</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+  <style>
+    .diagrama {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(13, 110, 253, 0.12);
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .diagrama svg {
+      width: 100%;
+      min-width: 760px;
+      height: auto;
+      display: block;
+    }
+    .leyenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+      margin-top: 22px;
+      color: #5a6b7d;
+      font-size: 0.9rem;
+    }
+    .leyenda span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .punto {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    table.desc {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(13, 110, 253, 0.12);
+    }
+    table.desc th,
+    table.desc td {
+      text-align: left;
+      padding: 13px 18px;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 0.93rem;
+    }
+    table.desc th {
+      background: #f8fafd;
+      color: #46586d;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    code {
+      background: #eef2f7;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <span class="cruz">+</span> Clínica <span>Vida Sana</span>
+      </a>
+      <button class="menu-toggle" aria-label="Menú">&#9776;</button>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="especialidades.html">Especialidades</a></li>
+          <li><a href="medicos.html">Médicos</a></li>
+          <li><a href="agendar.html">Agendar cita</a></li>
+          <li><a href="mi-cita.html">Mi cita</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="seccion">
+    <div class="container">
+      <div class="titulo">
+        <h2>Arquitectura del Sistema</h2>
+        <p>Diagrama de componentes de la aplicación de citas médicas (arquitectura cliente, sin servidor).</p>
+      </div>
+
+      <div class="diagrama">
+        <svg viewBox="0 0 1000 760" role="img" aria-label="Diagrama de arquitectura del sistema">
+          <defs>
+            <marker id="flecha" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L8,3 L0,6 z" fill="#8595a8" />
+            </marker>
+          </defs>
+
+          <!-- ACTORES -->
+          <rect x="140" y="30" width="230" height="64" rx="12" fill="#e7f1ff" stroke="#0d6efd" stroke-width="1.5" />
+          <text x="255" y="60" text-anchor="middle" font-family="Segoe UI" font-size="15" font-weight="700" fill="#0a4fa3">Paciente / Visitante</text>
+          <text x="255" y="80" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#46586d">Navegador web</text>
+
+          <rect x="630" y="30" width="230" height="64" rx="12" fill="#e7f1ff" stroke="#0d6efd" stroke-width="1.5" />
+          <text x="745" y="60" text-anchor="middle" font-family="Segoe UI" font-size="15" font-weight="700" fill="#0a4fa3">Administrador</text>
+          <text x="745" y="80" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#46586d">Login (cliente)</text>
+
+          <!-- flechas actores -> presentacion -->
+          <line x1="255" y1="94" x2="255" y2="138" stroke="#8595a8" stroke-width="2" marker-end="url(#flecha)" />
+          <line x1="745" y1="94" x2="855" y2="178" stroke="#8595a8" stroke-width="2" marker-end="url(#flecha)" />
+
+          <!-- CAPA PRESENTACION -->
+          <rect x="30" y="140" width="940" height="140" rx="16" fill="#eef4ff" stroke="#0d6efd" stroke-width="1.5" stroke-dasharray="4 4" />
+          <text x="50" y="165" font-family="Segoe UI" font-size="14" font-weight="700" fill="#0a4fa3">Capa de Presentación — Páginas HTML5 (estructura / contenido)</text>
+
+          <g font-family="Segoe UI" font-size="13" text-anchor="middle">
+            <rect x="50" y="180" width="130" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="115" y="216" fill="#1f2d3d" font-weight="600">index</text>
+            <text x="115" y="234" fill="#8595a8" font-size="11">.html</text>
+
+            <rect x="195" y="180" width="150" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="270" y="216" fill="#1f2d3d" font-weight="600">especialidades</text>
+            <text x="270" y="234" fill="#8595a8" font-size="11">.html</text>
+
+            <rect x="360" y="180" width="120" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="420" y="216" fill="#1f2d3d" font-weight="600">medicos</text>
+            <text x="420" y="234" fill="#8595a8" font-size="11">.html</text>
+
+            <rect x="495" y="180" width="120" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="555" y="216" fill="#1f2d3d" font-weight="600">agendar</text>
+            <text x="555" y="234" fill="#8595a8" font-size="11">.html</text>
+
+            <rect x="630" y="180" width="120" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="690" y="216" fill="#1f2d3d" font-weight="600">contacto</text>
+            <text x="690" y="234" fill="#8595a8" font-size="11">.html</text>
+
+            <rect x="765" y="180" width="150" height="80" rx="10" fill="#ffffff" stroke="#b9d4ff" />
+            <text x="840" y="216" fill="#1f2d3d" font-weight="600">admin</text>
+            <text x="840" y="234" fill="#8595a8" font-size="11">.html</text>
+          </g>
+
+          <!-- flecha presentacion -> estilos / logica -->
+          <line x1="300" y1="280" x2="255" y2="316" stroke="#8595a8" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#flecha)" />
+          <line x1="700" y1="280" x2="745" y2="316" stroke="#8595a8" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#flecha)" />
+          <text x="300" y="300" font-family="Segoe UI" font-size="11" fill="#8595a8">aplica estilos</text>
+          <text x="660" y="300" font-family="Segoe UI" font-size="11" fill="#8595a8">manipula DOM</text>
+
+          <!-- CAPA ESTILOS -->
+          <rect x="30" y="320" width="450" height="160" rx="16" fill="#e9faf3" stroke="#12b886" stroke-width="1.5" stroke-dasharray="4 4" />
+          <text x="50" y="345" font-family="Segoe UI" font-size="14" font-weight="700" fill="#0a7a57">Capa de Estilos — CSS (presentación visual)</text>
+          <g font-family="Segoe UI" font-size="13" text-anchor="middle">
+            <rect x="50" y="365" width="200" height="48" rx="10" fill="#ffffff" stroke="#a9e6ce" />
+            <text x="150" y="395" fill="#1f2d3d" font-weight="600">css/estilos.css</text>
+            <rect x="265" y="365" width="195" height="48" rx="10" fill="#ffffff" stroke="#a9e6ce" />
+            <text x="362" y="395" fill="#1f2d3d" font-weight="600">css/admin.css</text>
+          </g>
+          <text x="50" y="442" font-family="Segoe UI" font-size="12" fill="#0a7a57">Diseño responsivo, componentes y tema visual.</text>
+          <text x="50" y="462" font-family="Segoe UI" font-size="12" fill="#0a7a57">Sin dependencias externas.</text>
+
+          <!-- CAPA LOGICA -->
+          <rect x="520" y="320" width="450" height="160" rx="16" fill="#fff4e6" stroke="#f08c00" stroke-width="1.5" stroke-dasharray="4 4" />
+          <text x="540" y="345" font-family="Segoe UI" font-size="14" font-weight="700" fill="#b86b00">Capa de Lógica — JavaScript (comportamiento)</text>
+          <g font-family="Segoe UI" font-size="13" text-anchor="middle">
+            <rect x="540" y="365" width="200" height="90" rx="10" fill="#ffffff" stroke="#f7d9a8" />
+            <text x="640" y="400" fill="#1f2d3d" font-weight="700">js/datos.js</text>
+            <text x="640" y="420" fill="#8595a8" font-size="11">Núcleo de datos y</text>
+            <text x="640" y="436" fill="#8595a8" font-size="11">horarios (módulo)</text>
+
+            <rect x="755" y="365" width="195" height="40" rx="10" fill="#ffffff" stroke="#f7d9a8" />
+            <text x="852" y="390" fill="#1f2d3d" font-weight="600">js/app.js</text>
+            <rect x="755" y="415" width="195" height="40" rx="10" fill="#ffffff" stroke="#f7d9a8" />
+            <text x="852" y="440" fill="#1f2d3d" font-weight="600">js/admin.js</text>
+          </g>
+
+          <!-- CAPA DATOS -->
+          <rect x="180" y="520" width="640" height="120" rx="16" fill="#0f1c2e" />
+          <text x="500" y="548" text-anchor="middle" font-family="Segoe UI" font-size="14" font-weight="700" fill="#ffffff">Capa de Datos — localStorage (persistencia en el navegador)</text>
+          <g font-family="Segoe UI" font-size="13" text-anchor="middle">
+            <rect x="210" y="565" width="270" height="55" rx="10" fill="#1c3050" stroke="#3a5074" />
+            <text x="345" y="590" fill="#ffffff" font-weight="600">clave: citasMedicas (turnos)</text>
+            <text x="345" y="608" fill="#9fb3cc" font-size="11">JSON: paciente, especialidad, médico</text>
+
+            <rect x="520" y="565" width="270" height="55" rx="10" fill="#1c3050" />
+            <text x="655" y="590" fill="#ffffff" font-weight="600">clave: medicos</text>
+            <text x="655" y="608" fill="#9fb3cc" font-size="11">días, horario y duración de citas</text>
+          </g>
+
+          <!-- flecha logica -> datos -->
+          <line x1="745" y1="480" x2="610" y2="518" stroke="#8595a8" stroke-width="2" marker-end="url(#flecha)" />
+          <text x="640" y="505" font-family="Segoe UI" font-size="11" fill="#8595a8">lee / escribe</text>
+
+          <!-- NOTA -->
+          <rect x="180" y="670" width="640" height="56" rx="12" fill="#f4f7fb" stroke="#c9d6e5" />
+          <text x="500" y="695" text-anchor="middle" font-family="Segoe UI" font-size="12.5" fill="#46586d">
+            Arquitectura 100% cliente: no hay servidor ni base de datos. El estado vive en el navegador del usuario.
+          </text>
+          <text x="500" y="714" text-anchor="middle" font-family="Segoe UI" font-size="12.5" fill="#8595a8">
+            Para producción se recomienda un backend con API REST y base de datos (ver nota abajo).
+          </text>
+        </svg>
+      </div>
+
+      <div class="leyenda">
+        <span><span class="punto" style="background:#eef4ff;border:1px solid #0d6efd"></span> Presentación (HTML)</span>
+        <span><span class="punto" style="background:#e9faf3;border:1px solid #12b886"></span> Estilos (CSS)</span>
+        <span><span class="punto" style="background:#fff4e6;border:1px solid #f08c00"></span> Lógica (JS)</span>
+        <span><span class="punto" style="background:#0f1c2e"></span> Datos (localStorage)</span>
+      </div>
+
+      <div style="margin-top:50px;">
+        <div class="titulo" style="text-align:left;margin:0 0 20px;">
+          <h2 style="font-size:1.4rem;">Descripción de componentes</h2>
+        </div>
+        <table class="desc">
+          <thead>
+            <tr><th>Capa</th><th>Componente</th><th>Responsabilidad</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Presentación</td><td><code>index.html</code></td><td>Página de inicio: hero, ventajas y especialidades destacadas.</td></tr>
+            <tr><td>Presentación</td><td><code>especialidades.html</code></td><td>Catálogo de especialidades médicas.</td></tr>
+            <tr><td>Presentación</td><td><code>medicos.html</code></td><td>Directorio del equipo médico.</td></tr>
+            <tr><td>Presentación</td><td><code>agendar.html</code></td><td>Formulario público para agendar citas.</td></tr>
+            <tr><td>Presentación</td><td><code>mi-cita.html</code></td><td>Gestión del paciente: buscar por documento, reagendar o anular la cita.</td></tr>
+            <tr><td>Presentación</td><td><code>contacto.html</code></td><td>Datos de contacto y formulario de mensajes.</td></tr>
+            <tr><td>Presentación</td><td><code>admin.html</code></td><td>Login y panel de administración (turnos y médicos).</td></tr>
+            <tr><td>Estilos</td><td><code>css/estilos.css</code></td><td>Diseño del sitio público y componentes comunes.</td></tr>
+            <tr><td>Estilos</td><td><code>css/admin.css</code></td><td>Diseño del login, panel, tablas y modal.</td></tr>
+            <tr><td>Lógica</td><td><code>js/datos.js</code></td><td>Módulo núcleo: lectura/escritura de datos y cálculo de horarios.</td></tr>
+            <tr><td>Lógica</td><td><code>js/app.js</code></td><td>Sitio público: menú, validación de citas y disponibilidad.</td></tr>
+            <tr><td>Lógica</td><td><code>js/mi-cita.js</code></td><td>Gestión del paciente: reagendar y anular citas según disponibilidad.</td></tr>
+            <tr><td>Lógica</td><td><code>js/admin.js</code></td><td>Panel: login, CRUD de turnos y médicos.</td></tr>
+            <tr><td>Datos</td><td><code>localStorage["citasMedicas"]</code></td><td>Turnos registrados (JSON).</td></tr>
+            <tr><td>Datos</td><td><code>localStorage["medicos"]</code></td><td>Médicos, días, horario y duración de cita (JSON).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:40px;" class="card">
+        <h3>Evolución sugerida a producción</h3>
+        <p>
+          Actualmente todo corre en el navegador (sin servidor). Para un sistema real con múltiples
+          usuarios y seguridad, se recomienda: <strong>frontend</strong> (estas páginas) + <strong>API REST</strong>
+          (Node/Express, PHP, .NET, etc.) + <strong>base de datos</strong> (PostgreSQL/MySQL), con
+          autenticación por tokens (JWT) y control de roles para administradores.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Clínica Vida Sana</h4>
+          <p>Comprometidos con tu salud y la de tu familia. Atención médica de calidad con calidez humana.</p>
+        </div>
+        <div>
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="especialidades.html">Especialidades</a></li>
+            <li><a href="medicos.html">Médicos</a></li>
+            <li><a href="agendar.html">Agendar cita</a></li>
+            <li><a href="mi-cita.html">Mi cita</a></li>
+            <li><a href="arquitectura.html">Arquitectura</a></li>
+            <li><a href="admin.html">Acceso administradores</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Principal 123, Ciudad</li>
+            <li>Tel: (55) 1234-5678</li>
+            <li>info@vidasana.com</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Horarios</h4>
+          <ul>
+            <li>Lun a Vie: 8:00 - 20:00</li>
+            <li>Sábado: 8:00 - 14:00</li>
+            <li>Urgencias: 24/7</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copy">© 2026 Clínica Vida Sana. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
